@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Play Your Hand</title>
+<link rel="stylesheet" href="blackjack.css">
+</head>
+<body>
+	<h1>Go For Code Blackjack Game</h1>
+
+	<h2>Player hand</h2>
+
+	{{#game.playerHand.cards}}
+
+	<div>{{ face }} of {{ suit }}</div>
+
+	{{/game.playerHand.cards}} {{game.playerHand.getTotal}}
+
+	<div>There are {{ game.getDeck.size }} cards left</div>
+
+	<h3>Dealer hand</h3>
+
+	{{#game.dealerHand.cards}}
+
+	<div>{{ face }} of {{ suit }}</div>
+
+	{{/game.dealerHand.cards}}
+
+	<div>There are {{ game.getDeck.size }} cards left</div>
+	<br>
+	<div>You have ${{ game.purse.money }}</div>
+	<div>The current bet is ${{ game.currentBet }}</div>
+
+	<div>{{#game.deckIsEmpty}}</div>
+	<div>Game is Over</div>
+	<div>{{/game.deckIsEmpty}}</div>
+
+	
+	{{#game.isGameOver}}
+		<form method="post" action="/restartGame">
+			<button>ReStart Game</button>
+		</form>
+	{{/game.isGameOver}}
+	
+	{{#game.isHandOver}}
+		{{^game.purse.purseIsEmpty}}
+			<div>Make a new bet. Keep playing. You're a lucky person.</div>
+			<form method="post" action="/bet">
+				<input required autofocus type="number" name="bet">
+				<button>Place bet</button>
+			</form>
+		{{/game.purse.purseIsEmpty}}
+	{{/game.isHandOver}} 
+	
+	{{#game.tie}}
+		<div>Game is tied!</div>
+	{{/game.tie}} 
+	
+	{{#game.playerWins}}
+		<div>Player Wins!!!</div>
+	{{/game.playerWins}}
+	
+	{{#game.dealerWins}}
+		<div>Dealer Wins!!!</div>
+	{{/game.dealerWins}}
+	
+	{{#game.purse.purseIsEmpty}}
+		<div>You're Broke!</div>
+	{{/game.purse.purseIsEmpty}}
+	
+</body>
+</html>

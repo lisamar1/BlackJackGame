@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Play Your Hand</title>
+<link rel="stylesheet" href="blackjack.css">
+</head>
+<body>
+	<h1>Go For Code Blackjack Game</h1>
+
+	<h2>Player hand</h2>
+
+	{{#game.playerHand.cards}}
+		<div>{{ face }} of {{ suit }}</div>
+	{{/game.playerHand.cards}}
+	
+	{{game.playerHand.getTotal}}
+	
+	<div>There are {{ game.getDeck.size }} cards left</div>
+
+	<h3>Dealer hand</h3>
+
+	<div>{{game.dealerHand.cards.0.face}} of {{game.dealerHand.cards.0.suit}}</div>
+	<div>SECRET</div>
+	
+	<div>There are {{ game.getDeck.size }} cards left</div>
+
+	<br>
+	<div>You have ${{ game.purse.money }}</div>
+	<div>The current bet is ${{ game.currentBet }}</div>
+
+
+	{{^game.playerBusted}}
+		{{^game.isHandOver}}
+			<form method="post" action="/hit">
+				<button>Hit me</button>
+			</form>
+		
+			<form method="post" action="/stand">
+				<button>I'll Stay</button>
+			</form>
+		
+			<form method="post" action="/restartGame">
+				<button>ReStart Game</button>
+			</form>
+		{{/game.isHandOver}}
+	{{/game.playerBusted}}
+	
+	{{#game.isHandOver}}
+		<div>Game is Over!</div>
+		<form method="post" action="/newHand">
+			<button>New Hand</button>
+		</form>
+	{{/game.isHandOver}}
+	
+	{{#game.isGameOver}}
+		<form method="post" action="/restartGame">
+			<button>ReStart Game</button>
+		</form>
+	{{/game.isGameOver}}
+	
+	
+	{{#game.tie}}
+		<div>Game is tied!</div>
+	{{/game.tie}}
+	
+	{{#game.playerWins}}
+		<div>Player Wins!!!</div>
+	{{/game.playerWins}}
+	
+	{{#game.dealerWins}}
+		<div>Dealer Wins!!!</div>
+	{{/game.dealerWins}}
+</body>
+</html>
